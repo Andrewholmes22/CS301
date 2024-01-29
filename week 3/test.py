@@ -70,7 +70,7 @@ def access_dict(n):
 main_df = pd.DataFrame([], columns=['Size of n', 'Time', 'Operation'])
 
 num_runs = 10
-size_of_dict = [i for i in range(0, 1000001, 1000)]
+size_of_dict = [i for i in range(0, 1000001, 10)]
 
 for _ in range(num_runs):
     for size in size_of_dict:
