@@ -3,21 +3,22 @@ sortList2 = []
 for x in range(200): #make list2
     sortList2.append(x*1.25)
 # print(sortList1)
-# print(sortList2)
-# print(sortList3[:21])
+# print(sortList2[:50])
+
 
 def search_sorted_list(sorted_list,item,low=0,high=None):
-    print(high)
     if high == None:
         high = len(sorted_list)
+    print(str(high)+" "+str(low))
     mid = (low+high)//2
+    print(mid)
     if sorted_list[mid] == item:
         return True
-    if low == high:
+    if low == high or low == high-1:
         return False
     elif sorted_list[mid] < item:
         search_sorted_list(sorted_list,item,low,mid)
-    elif sorted_list[mid] > item:
+    else:
         search_sorted_list(sorted_list,item,mid,high)
     
         
