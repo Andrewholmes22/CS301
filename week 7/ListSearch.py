@@ -9,9 +9,9 @@ for x in range(200): #make list2
 def search_sorted_list(sorted_list,item,low=0,high=None):
     if high == None:
         high = len(sorted_list)
-    print(str(high)+" "+str(low))
+    #print(str(high)+" "+str(low))
     mid = (low+high)//2
-    print(mid)
+    #print(mid)
     if sorted_list[mid] == item:
         return True
     if low == high or low == high-1:
