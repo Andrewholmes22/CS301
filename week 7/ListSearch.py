@@ -8,19 +8,22 @@ for x in range(200): #make list2
 
 def search_sorted_list(sorted_list,item,low=0,high=None):
     if high == None:
-        high = len(sorted_list)
+        high = len(sorted_list)-1
     #print(str(high)+" "+str(low))
     mid = (low+high)//2
     #print(mid)
+    if low > high:
+        return False
     if sorted_list[mid] == item:
         return True
-    if low == high or low == high-1:
-        return False
-    elif sorted_list[mid] < item:
-        search_sorted_list(sorted_list,item,low,mid)
+    if sorted_list[mid] < item:
+        return search_sorted_list(sorted_list,item,mid+1,high)
     else:
-        search_sorted_list(sorted_list,item,mid,high)
+        return search_sorted_list(sorted_list,item,low,mid-1)
     
         
 print(search_sorted_list(sortList1,5))
-print(search_sorted_list(sortList1,2))
+print(search_sorted_list(sortList1,3))
+print(search_sorted_list(sortList1,1))
+print(search_sorted_list(sortList1,9))
+
