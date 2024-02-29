@@ -10,14 +10,15 @@ def listMaker(length):
 
 def Insert_Sort(): #Insert Sort
     unsorted = listMaker(10)
-    sort = []
-    print(unsorted[:100])
+    sort = [0]*len(unsorted)
+    print(unsorted)
     sort.append(unsorted[0])
     for item in unsorted:
         for test in sort:
-            if item > test:
+            if item < test:
                 sort.insert(sort.index(test),item)
-    print(sort[:100])
+                continue
+    print(sort)
 
 #Bubble Sort
 
