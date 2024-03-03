@@ -3,22 +3,23 @@ import time
 
 def listMaker(length):
     unsorted = []
-    for x in range(length):
-        rand = random.randint(0,length*2)
+    for _ in range(length):
+        rand = random.randint(1,length*100)
         unsorted.append(rand)
     return unsorted
 
-def Insert_Sort(): #Insert Sort
-    unsorted = listMaker(10)
-    sort = [0]*len(unsorted)
-    print(unsorted)
-    sort.append(unsorted[0])
-    for item in unsorted:
-        for test in sort:
-            if item < test:
-                sort.insert(sort.index(test),item)
-                continue
-    print(sort)
+def Insert_Sort(unsorted): #Insert Sort
+    length = len(unsorted)
+    if length<=1:
+        return
+    for i in range(1,length):
+        curr = unsorted[i]
+        print(curr)
+        j = i-1
+        while j>=0 and curr<unsorted[j]:
+            unsorted[j+1]=unsorted[j]
+            j -= 1
+        unsorted[j+1] = curr
 
 #Bubble Sort
 
@@ -51,8 +52,10 @@ def Bogo_Sort(): #BOGO Sort
 #         string = "Bogo failed after {time:.2f} seconds"
 #     print(string.format(time=total))
 
+unsorted = listMaker(10000)
+
 start = time.time()
-Insert_Sort()
+Insert_Sort(unsorted)
 end = time.time()
 total = end-start
 string = "Insert sort time: {time:.2f} seconds"
