@@ -14,14 +14,22 @@ def Insert_Sort(unsorted): #Insert Sort
         return
     for i in range(1,length):
         curr = unsorted[i]
-        print(curr)
         j = i-1
         while j>=0 and curr<unsorted[j]:
             unsorted[j+1]=unsorted[j]
             j -= 1
         unsorted[j+1] = curr
 
-#Bubble Sort
+def Bubble_Sort(unsorted): #Bubble Sort
+    l = len(unsorted)
+    for i in range(l):
+        sort = False
+        for j in range(0,l-i-1):
+            if unsorted[j] > unsorted[j+1]:
+                unsorted[j],unsorted[j+1] = unsorted[j+1],unsorted[j]
+                sort = True
+        if (sort == False):
+            break
 
 #Select Sort
 def SelectionSort(unsorted):  #O(n^2)
@@ -32,7 +40,25 @@ def SelectionSort(unsorted):  #O(n^2)
                 min_index = n
         unsorted[x], unsorted[min_index] = unsorted[min_index], unsorted[x]
     return unsorted
-#Merge Sort
+def List_Merger(list1,list2):
+    sort = []
+    l1 = len(list1)
+    l2 = len(list2)
+    if l1 < l2:
+        l = l1
+    else:
+        l = l2
+    done = False
+    while not done:
+        if list1[0] < list2[0]:
+            inp = list1.pop(0)
+        else:
+            inp = list2.pop(0)
+        if len(list1) < 1 and len(list2) < 1:
+            done == True
+
+def Merge_Sort(unsorted): #Merge Sort
+    return
 
 def Bogo_Sort(): #BOGO Sort
     unsorted = listMaker(10)
@@ -60,10 +86,17 @@ def Bogo_Sort(): #BOGO Sort
 #     print(string.format(time=total))
 
 unsorted = listMaker(10000)
-
 start = time.time()
 Insert_Sort(unsorted)
 end = time.time()
 total = end-start
 string = "Insert sort time: {time:.2f} seconds"
+print(string.format(time=total))
+
+unsorted = listMaker(10000)
+start = time.time()
+Bubble_Sort(unsorted)
+end = time.time()
+total = end-start
+string = "Bubble sort time: {time:.2f} seconds"
 print(string.format(time=total))
