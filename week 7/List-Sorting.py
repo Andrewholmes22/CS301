@@ -44,18 +44,21 @@ def List_Merger(list1,list2):
     sort = []
     l1 = len(list1)
     l2 = len(list2)
-    if l1 < l2:
-        l = l1
-    else:
-        l = l2
+    print(list1,list2)
     done = False
     while not done:
+        if len(list1) < 1:
+            sort.extend(list2)
+            break
+        if len(list2) < 1:
+            sort.extend(list1)
+            break
         if list1[0] < list2[0]:
             inp = list1.pop(0)
         else:
             inp = list2.pop(0)
-        if len(list1) < 1 and len(list2) < 1:
-            done == True
+        sort.append(inp)
+    print(sort)
 
 def Merge_Sort(unsorted): #Merge Sort
     return
@@ -100,3 +103,7 @@ end = time.time()
 total = end-start
 string = "Bubble sort time: {time:.2f} seconds"
 print(string.format(time=total))
+
+list1 = [1,3,5,7,9]
+list2 = [2,4,6,8,10]
+List_Merger(list1,list2)
