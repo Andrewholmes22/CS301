@@ -8,7 +8,7 @@ def listMaker(length):
         unsorted.append(rand)
     return unsorted
 
-def Insert_Sort(unsorted): #Insert Sort
+def Insert_Sort(unsorted): #Insert Sort O(n^2)
     length = len(unsorted)
     if length<=1:
         return
@@ -20,7 +20,7 @@ def Insert_Sort(unsorted): #Insert Sort
             j -= 1
         unsorted[j+1] = curr
 
-def Bubble_Sort(unsorted): #Bubble Sort
+def Bubble_Sort(unsorted): #Bubble Sort O(n^2)
     l = len(unsorted)
     for i in range(l):
         sort = False
@@ -61,7 +61,7 @@ def List_Merger(list1,list2):
         sort.append(inp)
     return sort
 
-def Merge_Sort(unsorted): #Merge Sort
+def Merge_Sort(unsorted): #Merge Sort O(NlogN)
     if len(unsorted) > 1:
         mid = len(unsorted)//2
         l1 = unsorted[:mid]
@@ -98,7 +98,6 @@ def Bogo_Sort(): #BOGO Sort O(Very High)
             print(unsorted)
             return True
         else:
-
             random.shuffle(unsorted)
         count += 1
     return False
@@ -134,7 +133,7 @@ print(string.format(time=total))
 # list2 = [2,4,6,8,10]
 # List_Merger(list1,list2)
 
-unsorted = listMaker(1000000)
+unsorted = listMaker(10000)
 start = time.time()
 Merge_Sort(unsorted)
 end = time.time()
