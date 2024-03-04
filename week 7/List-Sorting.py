@@ -24,7 +24,14 @@ def Insert_Sort(unsorted): #Insert Sort
 #Bubble Sort
 
 #Select Sort
-
+def SelectionSort(unsorted):  #O(n^2)
+    for x in range(len(unsorted)):
+        min_index = x
+        for n in range(x + 1, len(unsorted)):
+            if unsorted[min_index] > unsorted[n]:
+                min_index = n
+        unsorted[x], unsorted[min_index] = unsorted[min_index], unsorted[x]
+    return unsorted
 #Merge Sort
 
 def Bogo_Sort(): #BOGO Sort
