@@ -1,3 +1,4 @@
+#Chase Weynand and Andrew Holmes
 class Node:
     def __init__(self, item):
         self.item = item
