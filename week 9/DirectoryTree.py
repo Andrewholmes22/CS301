@@ -1,23 +1,31 @@
-class Node():
-    def __init__(self,item):
+class Node:
+    def __init__(self, item):
         self.item = item
-        self.next = [None]
-class DirectoryTree():
-    def __init__(self,root='/'):
-        self.root = root
-        self.tree = [root]
-    def insert_file(self,path):
-        pathLi = path.split('/')
-        pathLi.pop(0)
-        while len(pathLi)>1:
-            if pathLi[0] not in self.tree:
-                    self.tree.append(DirectoryTree(root=pathLi[0]))
-                    pathLi.pop(0)
-            else:
-                self.tree.insert(pathLi.index(pathLi[0]),DirectoryTree(root=pathLi[1]))
-                pathLi.pop(0)
-                pathLi.pop(1)
-            
+        self.children = []
+
+class DirectoryTree:
+    def __init__(self, root='/'):
+        self.root = Node(root)
+
+    def insert_file(self, path):
+        directories = path.split('/')[1:]
+        current_node = self.root
+
+        for directory in directories[:-1]:
+            found = False
+            for child in current_node.children:
+                if child.item == directory:
+                    current_node = child
+                    found = True
+                    break
+            if not found:
+                new_node = Node(directory)
+                current_node.children.append(new_node)
+                current_node = new_node
+
+        file_node = Node(directories[-1])
+        current_node.children.append(file_node)
+
     def delete_file(self, path):
         directories = path.split('/')[1:]
         current_node = self.root
@@ -25,7 +33,7 @@ class DirectoryTree():
         for directory in directories[:-1]:
             found = False
             for child in current_node.children:
-                if child.data == directory:
+                if child.item == directory:
                     current_node = child
                     found = True
                     break
@@ -35,7 +43,7 @@ class DirectoryTree():
         file_name = directories[-1]
         found = False
         for child in current_node.children:
-            if child.data == file_name:
+            if child.item == file_name:
                 current_node.children.remove(child)
                 found = True
                 break
@@ -52,11 +60,9 @@ class DirectoryTree():
 
     def _print_tree_recursive(self, node, depth):
         if isinstance(node, Node):
-            print('  ' * depth + node.data)
+            print('  ' * depth + node.item)
             for child in node.children:
                 self._print_tree_recursive(child, depth + 1)
-        else:
-            print('  ' * depth + node)
 
     def print_tree(self):
         self._print_tree_recursive(self.root, 0)
@@ -65,4 +71,6 @@ class DirectoryTree():
 newTree = DirectoryTree()
 newTree.insert_file('/usr/log/log1')
 newTree.insert_file('/usr/log/log2')
+newTree.print_tree()
+newTree.delete_file('/usr/log/log2')
 newTree.print_tree()
