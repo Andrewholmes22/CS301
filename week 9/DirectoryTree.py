@@ -9,10 +9,15 @@ class DirectoryTree():
     def insertPath(self,path):
         pathLi = path.split('/')
         pathLi.pop(0)
-        if pathLi[0] not in self.tree:
-                self.tree.append(DirectoryTree(root=pathLi[0]))
-        else:
-            print('lol idk')
+        while len(pathLi)>1:
+            if pathLi[0] not in self.tree:
+                    self.tree.append(DirectoryTree(root=pathLi[0]))
+                    pathLi.pop(0)
+            else:
+                self.tree.insert(pathLi.index(pathLi[0]),DirectoryTree(root=pathLi[1]))
+                pathLi.pop(0)
+                pathLi.pop(1)
+            
     def printTree(self):
         print(self.tree)
 
