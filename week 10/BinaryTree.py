@@ -39,16 +39,16 @@ class DirectoryTree:
                 curr_node = curr_node.LeftChild
             elif item > curr_node.item:
                 curr_node = curr_node.RightChild
-    def sorted_list(self,start = None):
-        if start == None:
-            start = self.root
+    def sorted_list(self, start=None):
         sortList = []
+        if start is None:
+            start = self.root
         if start.LeftChild != -1:
-            self.sorted_list(start = start.LeftChild)
-        elif start.LeftChild == -1:
-            sortList.append(start.item)
+            sortList += self.sorted_list(start.LeftChild)
+        sortList.append(start.item)
+        if start.RightChild != -1:
+            sortList += self.sorted_list(start.RightChild)
         return sortList
-    
     def reverse_sorted_list(self,start = None):
         if start == None:
             start = self.root
