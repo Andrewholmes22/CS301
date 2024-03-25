@@ -26,6 +26,8 @@ class DirectoryTree:
                     break
                 else:
                     current_node = current_node.RightChild
+    #worst case is O(n), where 'n' is the number of nodes in the tree
+    
     def search(self,item):
         curr_node = self.root
         found = False
@@ -39,6 +41,9 @@ class DirectoryTree:
                 curr_node = curr_node.LeftChild
             elif item > curr_node.item:
                 curr_node = curr_node.RightChild
+    #best case is O(1), when the item being searched for is found at the root 
+    #worst case is O(n), when the item being searched is not in the tree or is at the last level of the tree
+    
     def sorted_list(self, start=None):
         sortList = []
         if start is None:
@@ -49,6 +54,9 @@ class DirectoryTree:
         if start.RightChild != -1:
             sortList += self.sorted_list(start.RightChild)
         return sortList
+    #best case is O(n), when the tree is balanced, the algorithm would traverse each node once, adding each item to the sorted list.
+    #worst case is O(n), when the tree is unbalanced each node only having one child needs to traverse all 'n' nodes in the tree recursively
+    
     def reverse_sorted_list(self,start = None):
         if start == None:
             start = self.root
@@ -58,8 +66,8 @@ class DirectoryTree:
         elif start.RightChild == -1:
             sortList.append(start.item)
         return sortList
-        
-                
+    # best case O(n) when the tree is perfectly balanced, and every node has both a left and right child
+    # worst case is O(n), when the tree is unbalanced each node only having one child needs to traverse all 'n' nodes in the tree recursively         
 biTree = DirectoryTree(5)
 biTree.insert(4)
 biTree.insert(6)
