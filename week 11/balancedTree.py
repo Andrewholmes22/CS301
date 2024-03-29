@@ -25,6 +25,16 @@ class AVLTree:
         while curr_node.RightChild>-1:
             self.balanced(curr_node.RightChild)
         print(balance)
+    
+    def fakeBalance(self):
+        badList = self.sorted_list()
+        center = len(badList)//2
+        newList = []
+        while len(badList)>0:
+            newList.append(badList[center])
+            badList.pop(center)
+            center = len(badList)//2
+        return newList
         
     
     def insert(self,item):
@@ -97,4 +107,3 @@ print(biTree.search(9))#return False
 print(biTree.search(7))#return True
 print(biTree.search(3))#return True
 print(biTree.sorted_list())
-biTree.balanced()
