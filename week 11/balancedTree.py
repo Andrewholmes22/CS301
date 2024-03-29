@@ -4,24 +4,26 @@ class Node:
         self.LeftChild = -1
         self.RightChild = -1
 
-class DirectoryTree:
-    def __init__(self,root):
+class AVLTree:
+    def __init__(self,root,balance = 0):
         self.root = Node(root)
+        self.balance = balance
         
-    def balance(self,curr_node = None):
+    def balanced(self,curr_node = None):
         balance = []
         children = 0
-        if curr_node == None:
+        if curr_node is None:
             curr_node = self.root
         if curr_node.LeftChild>0:
             children-=1
         if curr_node.RightChild>0:
             children+=1
         balance.append([curr_node, children])
+        self.balance = children
         while curr_node.LeftChild>-1:
-            balance(curr_node.LeftChild)
+            self.balanced(curr_node.LeftChild)
         while curr_node.RightChild>-1:
-            balance(curr_node.RightChild)
+            self.balanced(curr_node.RightChild)
         print(balance)
         
     
@@ -85,7 +87,7 @@ class DirectoryTree:
         return sortList
     # best case O(n) when the tree is perfectly balanced, and every node has both a left and right child
     # worst case is O(n), when the tree is unbalanced each node only having one child needs to traverse all 'n' nodes in the tree recursively         
-biTree = DirectoryTree(5)
+biTree = AVLTree(5)
 biTree.insert(4)
 biTree.insert(6)
 biTree.insert(3)
@@ -95,3 +97,4 @@ print(biTree.search(9))#return False
 print(biTree.search(7))#return True
 print(biTree.search(3))#return True
 print(biTree.sorted_list())
+biTree.balanced()
