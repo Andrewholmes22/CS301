@@ -1,6 +1,6 @@
 class Node:
     def __init__(self, root = -1):
-        self.item = root
+        self.item =root
         self.left = -1
         self.right = -1
 
@@ -18,8 +18,7 @@ class AVLTree:
         else:
             root.right = self.insert(root.right, key)
 
-        root.height = 1 + max(self.getHeight(root.left),
-                        self.getHeight(root.right))
+        root.height = 1 + max(self.getHeight(root.left),self.getHeight(root.right))
 
         b = self.getBalance(root)
 
@@ -40,25 +39,22 @@ class AVLTree:
         return root
 
     def leftRotate(self, z):
-
         y = z.right
-        T2 = y.left
+        temp = y.left
 
         y.left = z
-        z.right = T2
+        z.right = temp
 
         z.height = 1 + max(self.getHeight(z.left),self.getHeight(z.right))
         y.height = 1 + max(self.getHeight(y.left),self.getHeight(y.right))
-
         return y
 
     def rightRotate(self, z):
-
         y = z.left
-        T3 = y.right
+        temp2 = y.right
 
         y.right = z
-        z.left = T3
+        z.left = temp2
 
         z.height = 1 + max(self.getHeight(z.left),self.getHeight(z.right))
         y.height = 1 + max(self.getHeight(y.left),self.getHeight(y.right))
@@ -117,14 +113,18 @@ class AVLTree:
         return sortList
     # best case O(n) when the tree is perfectly balanced, and every node has both a left and right child
     # worst case is O(n), when the tree is unbalanced each node only having one child needs to traverse all 'n' nodes in the tree recursively         
-biTree = AVLTree(5)  # Initialize AVL tree with root value 5
-root = biTree.root
-biTree.insert(root, 4)  # Pass the root node to the insert function
-biTree.insert(root, 6)
-biTree.insert(root, 3)
-biTree.insert(root, 7)
-print(biTree.search(5))#return True
-print(biTree.search(9))#return False
-print(biTree.search(7))#return True
-print(biTree.search(3))#return True
-print(biTree.sorted_list())
+Tree = AVLTree(0)
+root = None
+
+root = Tree.insert(root, 1)
+root = Tree.insert(root, 2)
+root = Tree.insert(root, 3)
+root = Tree.insert(root, 4)
+root = Tree.insert(root, 5)
+root = Tree.insert(root, 6)
+
+print(Tree.search(5))#return True
+print(Tree.search(9))#return False
+print(Tree.search(7))#return True
+print(Tree.search(3))#return True
+print(Tree.sorted_list())
