@@ -3,6 +3,7 @@ class Node:
         self.item =root
         self.left = -1
         self.right = -1
+        self.height = 1
 
 class AVLTree:
     def __init__(self,root,balance = 0):
@@ -80,12 +81,12 @@ class AVLTree:
             if item == curr_node.item:
                 found = True
                 return True
-            elif curr_node.LeftChild == -1 and curr_node.RightChild == -1:
+            elif curr_node.left == -1 and curr_node.right == -1:
                 return False
             elif item <= curr_node.item:
-                curr_node = curr_node.LeftChild
+                curr_node = curr_node.Left
             elif item > curr_node.item:
-                curr_node = curr_node.RightChild
+                curr_node = curr_node.Right
     #best case is O(1), when the item being searched for is found at the root 
     #worst case is O(n), when the item being searched is not in the tree or is at the last level of the tree
     
@@ -93,11 +94,11 @@ class AVLTree:
         sortList = []
         if start is None:
             start = self.root
-        if start.LeftChild != -1:
-            sortList += self.sorted_list(start.LeftChild)
+        if start.left != -1:
+            sortList += self.sorted_list(start.lefteft)
         sortList.append(start.item)
-        if start.RightChild != -1:
-            sortList += self.sorted_list(start.RightChild)
+        if start.right != -1:
+            sortList += self.sorted_list(start.right)
         return sortList
     #best case is O(n), when the tree is balanced, the algorithm would traverse each node once, adding each item to the sorted list.
     #worst case is O(n), when the tree is unbalanced each node only having one child needs to traverse all 'n' nodes in the tree recursively
@@ -106,9 +107,9 @@ class AVLTree:
         if start == None:
             start = self.root
         sortList = []
-        if start.RightChild != -1:
-            self.reverse_sorted_list(start = start.RightChild)
-        elif start.RightChild == -1:
+        if start.right != -1:
+            self.reverse_sorted_list(start = start.right)
+        elif start.right == -1:
             sortList.append(start.item)
         return sortList
     # best case O(n) when the tree is perfectly balanced, and every node has both a left and right child
@@ -116,12 +117,12 @@ class AVLTree:
 Tree = AVLTree(0)
 root = None
 
-root = Tree.insert(root, 1)
-root = Tree.insert(root, 2)
-root = Tree.insert(root, 3)
-root = Tree.insert(root, 4)
-root = Tree.insert(root, 5)
-root = Tree.insert(root, 6)
+Tree.insert(root, 1)
+Tree.insert(root, 2)
+Tree.insert(root, 3)
+Tree.insert(root, 4)
+Tree.insert(root, 5)
+Tree.insert(root, 6)
 
 print(Tree.search(5))#return True
 print(Tree.search(9))#return False
