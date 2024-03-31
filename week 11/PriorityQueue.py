@@ -14,7 +14,7 @@ class PriorityQueue:
     def swap(self, i, j):
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
 
-    def insert(self, item, priority): #O(1) as it appends to the end, then sorts
+    def insert(self, item, priority): #O(1) as it appends to the end, then sorts. Sorting is 0(log n)
         self.heap.append((item, priority))
         self.heapify_up(len(self.heap) - 1)
 
