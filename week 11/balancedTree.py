@@ -1,61 +1,81 @@
 class Node:
     def __init__(self, root = -1):
         self.item = root
-        self.LeftChild = -1
-        self.RightChild = -1
+        self.left = -1
+        self.right = -1
 
 class AVLTree:
     def __init__(self,root,balance = 0):
         self.root = Node(root)
         self.balance = balance
         
-    def balanced(self,curr_node = None):
-        balance = []
-        children = 0
-        if curr_node is None:
-            curr_node = self.root
-        if curr_node.LeftChild>0:
-            children-=1
-        if curr_node.RightChild>0:
-            children+=1
-        balance.append([curr_node, children])
-        self.balance = children
-        while curr_node.LeftChild>-1:
-            self.balanced(curr_node.LeftChild)
-        while curr_node.RightChild>-1:
-            self.balanced(curr_node.RightChild)
-        print(balance)
-    
-    def fakeBalance(self):
-        badList = self.sorted_list()
-        center = len(badList)//2
-        newList = []
-        while len(badList)>0:
-            newList.append(badList[center])
-            badList.pop(center)
-            center = len(badList)//2
-        return newList
-        
-    
-    def insert(self,item):
-        current_node = self.root
-        Found = False
-        while not Found:
-            if item <= current_node.item:
-                if current_node.LeftChild == -1:
-                    current_node.LeftChild = Node(item)
-                    Found = True
-                    break
-                else:
-                    current_node = current_node.LeftChild
-            elif item > current_node.item:
-                if current_node.RightChild == -1:
-                    current_node.RightChild = Node(item)
-                    Found = True
-                    break
-                else:
-                    current_node = current_node.RightChild
-    #worst case is O(n), where 'n' is the number of nodes in the tree
+    def insert(self, root, key):
+	
+        if not root:
+            return Node(key)
+        elif key < root.item:
+            root.left = self.insert(root.left, key)
+        else:
+            root.right = self.insert(root.right, key)
+
+        root.height = 1 + max(self.getHeight(root.left),
+                        self.getHeight(root.right))
+
+        b = self.getBalance(root)
+
+        if b > 1 and key < root.left.item:
+            return self.rightRotate(root)
+
+        if b < -1 and key > root.right.item:
+            return self.leftRotate(root)
+
+        if b > 1 and key > root.left.item:
+            root.left = self.leftRotate(root.left)
+            return self.rightRotate(root)
+
+        if b < -1 and key < root.right.item:
+            root.right = self.rightRotate(root.reft)
+            return self.leftRotate(root)
+
+        return root
+
+    def leftRotate(self, z):
+
+        y = z.right
+        T2 = y.left
+
+        y.left = z
+        z.right = T2
+
+        z.height = 1 + max(self.getHeight(z.left),self.getHeight(z.right))
+        y.height = 1 + max(self.getHeight(y.left),self.getHeight(y.right))
+
+        return y
+
+    def rightRotate(self, z):
+
+        y = z.left
+        T3 = y.right
+
+        y.right = z
+        z.left = T3
+
+        z.height = 1 + max(self.getHeight(z.left),self.getHeight(z.right))
+        y.height = 1 + max(self.getHeight(y.left),self.getHeight(y.right))
+
+        return y
+
+    def getHeight(self, root):
+            if not root:
+                return 0
+
+            return root.height
+
+    def getBalance(self, root):
+            if not root:
+                return 0
+            return self.getHeight(root.left) - self.getHeight(root.right)
+
     
     def search(self,item):
         curr_node = self.root
@@ -97,11 +117,12 @@ class AVLTree:
         return sortList
     # best case O(n) when the tree is perfectly balanced, and every node has both a left and right child
     # worst case is O(n), when the tree is unbalanced each node only having one child needs to traverse all 'n' nodes in the tree recursively         
-biTree = AVLTree(5)
-biTree.insert(4)
-biTree.insert(6)
-biTree.insert(3)
-biTree.insert(7)
+biTree = AVLTree(5)  # Initialize AVL tree with root value 5
+root = biTree.root
+biTree.insert(root, 4)  # Pass the root node to the insert function
+biTree.insert(root, 6)
+biTree.insert(root, 3)
+biTree.insert(root, 7)
 print(biTree.search(5))#return True
 print(biTree.search(9))#return False
 print(biTree.search(7))#return True
