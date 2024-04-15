@@ -1,0 +1,32 @@
+20 30
+a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t
+a j 10
+b j 4
+a d 5
+a g 6
+a c 4
+b g 11
+b f 21
+c i 11
+d e 30
+e h 9
+e f 13
+i f 2
+h n 1
+b s 1
+i k 5
+p g 4
+m r 2
+o f 7
+k m 3
+c l 7
+q t 25
+t o 4
+d s 3
+l q 8
+n r 11
+l n 15
+o h 18
+a r 22
+p d 6
+d l 4
