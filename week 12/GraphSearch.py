@@ -1,5 +1,5 @@
 from collections import deque
-class AdjacencyMatrix:
+class AdjacencyMatrix: #Chase
     def __init__(self):
         self.graph = []
         self.vertices = []
@@ -92,7 +92,7 @@ class AdjacencyMatrix:
     from collections import deque
 
 
-class AdjacencyList:
+class AdjacencyList: #Chase
     def __init__(self):
         self.adjList = {}
     def readGraph(self,filepath):
@@ -141,7 +141,8 @@ class AdjacencyList:
     def printList(self):
         for key,value in self.adjList.items():
             print(key,value)
-def BFS(graph, start_vertex, end_vertex):
+            
+def BFS(graph, start_vertex, end_vertex): #Andrew
     if start_vertex not in graph.adjList.keys() or end_vertex not in graph.adjList.keys():
         return False
 
@@ -158,7 +159,7 @@ def BFS(graph, start_vertex, end_vertex):
                 queue.append((neighbor, path + [(vertex, neighbor)]))
     return []
 
-def DFS(graph, start_vertex, end_vertex):
+def DFS(graph, start_vertex, end_vertex): #Andrew
     if start_vertex not in graph.adjList.keys() or end_vertex not in graph.adjList.keys():
         return False
 
@@ -174,6 +175,7 @@ def DFS(graph, start_vertex, end_vertex):
             for neighbor in graph.adjList[vertex]:
                 stack.append((neighbor, path + [(vertex, neighbor)]))
     return []
+
 fpath = input("File Path: ")
 
 newMat = AdjacencyMatrix()
@@ -196,8 +198,9 @@ print("remove vertex 'u':",newList.deleteVertex('u'))
 print("removing edge 'd,h':",newList.deleteEdge(('d','h')))
 newList.printList()
 print("neighbors of 'd':",newList.getNeighbors('d'))
+
 print("")
-print("bfs and dfs")
+print("BFS and DFS")
 print("BFS from 'a' to 'p':", BFS(newList,'a', 'p'))
 print("DFS from 'a' to 'p':", DFS(newList, 'a', 'p'))
 print("BFS from 'n' to 'b':", BFS(newList, 'n', 'b'))
