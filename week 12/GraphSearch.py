@@ -1,3 +1,4 @@
+from collections import deque
 class AdjacencyMatrix:
     def __init__(self):
         self.graph = []
@@ -88,6 +89,8 @@ class AdjacencyMatrix:
     def printGraph(self):
         for line in self.graph:
             print(line)
+    from collections import deque
+
 
 class AdjacencyList:
     def __init__(self):
@@ -138,7 +141,39 @@ class AdjacencyList:
     def printList(self):
         for key,value in self.adjList.items():
             print(key,value)
+def BFS(graph, start_vertex, end_vertex):
+    if start_vertex not in graph.adjList.keys() or end_vertex not in graph.adjList.keys():
+        return False
 
+    visited = set()
+    queue = deque([(start_vertex, [])])
+
+    while queue:
+        vertex, path = queue.popleft()
+        if vertex == end_vertex:
+            return path
+        if vertex not in visited:
+            visited.add(vertex)
+            for neighbor in graph.adjList[vertex]:
+                queue.append((neighbor, path + [(vertex, neighbor)]))
+    return []
+
+def DFS(graph, start_vertex, end_vertex):
+    if start_vertex not in graph.adjList.keys() or end_vertex not in graph.adjList.keys():
+        return False
+
+    visited = set()
+    stack = [(start_vertex, [])]
+
+    while stack:
+        vertex, path = stack.pop()
+        if vertex == end_vertex:
+            return path
+        if vertex not in visited:
+            visited.add(vertex)
+            for neighbor in graph.adjList[vertex]:
+                stack.append((neighbor, path + [(vertex, neighbor)]))
+    return []
 fpath = input("File Path: ")
 
 newMat = AdjacencyMatrix()
@@ -161,3 +196,15 @@ print("remove vertex 'u':",newList.deleteVertex('u'))
 print("removing edge 'd,h':",newList.deleteEdge(('d','h')))
 newList.printList()
 print("neighbors of 'd':",newList.getNeighbors('d'))
+print("")
+print("bfs and dfs")
+print("BFS from 'a' to 'p':", BFS(newList,'a', 'p'))
+print("DFS from 'a' to 'p':", DFS(newList, 'a', 'p'))
+print("BFS from 'n' to 'b':", BFS(newList, 'n', 'b'))
+print("DFS from 'n' to 'b':", DFS(newList, 'n', 'b'))
+print("BFS from 'g' to 'q':", BFS(newList, 'g', 'q'))
+print("DFS from 'g' to 'q':", DFS(newList, 'g', 'q'))
+print("BFS from 'c' to 'o':", BFS(newList, 'c', 'o'))
+print("DFS from 'c' to 'o':", DFS(newList, 'c', 'o'))
+print("BFS from 'o' to 'p':", BFS(newList, 'o', 'p'))
+print("DFS from 'o' to 'p':", DFS(newList, 'o', 'p'))
