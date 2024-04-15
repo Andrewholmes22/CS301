@@ -17,6 +17,7 @@ class AdjacencyMatrix:
             numbLine = line.strip().split(' ')
             self.graph[self.vertices.index(numbLine[0])+1][self.vertices.index(numbLine[1])+1] = '1'
             self.graph[self.vertices.index(numbLine[1])+1][self.vertices.index(numbLine[0])+1] = '1'
+        fi.close()
         return True
     def addVertex(self,vertex):
         if vertex not in self.vertices:
@@ -74,11 +75,13 @@ class AdjacencyMatrix:
             return False
         inds = []
         neighbors = []
+        count = 0
         for line in self.graph:
             if line[0] == vertex:
                 for item in line:
                     if item == '1':
-                        inds.append(line.index(item))
+                        inds.append(count)
+                    count+=1
         for ind in inds:
             neighbors.append(self.vertices[ind-1])
         return neighbors
@@ -88,28 +91,73 @@ class AdjacencyMatrix:
 
 class AdjacencyList:
     def __init__(self):
-        pass
+        self.adjList = {}
     def readGraph(self,filepath):
-        pass
+        fi = open(filepath)
+        val = fi.readline().split()
+        edgeCount = int(val[1])
+        vertices = fi.readline().strip().split(',')
+        for vertex in vertices:
+            self.adjList.update({vertex:[]})
+        for _ in range(edgeCount):
+            edge = fi.readline().strip().split(' ')
+            for key,value in self.adjList.items():
+                if key == edge[0]:
+                    value.append(edge[1])
+                if key == edge[1]:
+                    value.append(edge[0])
+        return True
     def addVertex(self,vertex):
-        pass
+        if vertex not in self.adjList:
+            self.adjList.update({vertex:[]})
+            return True
+        else:
+            return False
     def addEdge(self,edge):
-        pass
+        for key,value in self.adjList.items():
+            if key == edge[0]:
+                value.append(edge[1])
+            if key == edge[1]:
+                value.append(edge[0])
+        return True
     def deleteVertex(self,vertex):
-        pass
+        if vertex in self.adjList:
+            self.adjList.pop(vertex)
+            return True
+        else:
+            return False
     def deleteEdge(self,edge):
-        pass
+        for key,value in self.adjList.items():
+            if key == edge[0]:
+                value.remove(edge[1])
+            if key == edge[1]:
+                value.remove(edge[0])
+        return True
     def getNeighbors(self,vertex):
-        pass
+        return self.adjList.get(vertex)
+    def printList(self):
+        for key,value in self.adjList.items():
+            print(key,value)
 
 fpath = input("File Path: ")
 
 newMat = AdjacencyMatrix()
-print("reading",newMat.readGraph(fpath))
-print("Adding 'u'",newMat.addVertex('u'))
-print("adding edge to a,b",newMat.addEdge(('a','b')))
-print("adding edge to a,z",newMat.addEdge(('a','z')))
-print("deleting edge at a,b",newMat.deleteEdge(('a','b')))
-print("deleting vertex 'u'",newMat.deleteVertex('u'))
-print("getting neighbors of 'j'",newMat.getNeighbors('j'))
-#newMat.printGraph()
+print("reading:",newMat.readGraph(fpath))
+print("Adding 'u':",newMat.addVertex('u'))
+print("adding edge to a,b:",newMat.addEdge(('a','b')))
+print("adding edge to a,z:",newMat.addEdge(('a','z')))
+newMat.printGraph()
+print("deleting edge at a,b:",newMat.deleteEdge(('a','b')))
+print("deleting vertex 'u':",newMat.deleteVertex('u'))
+newMat.printGraph()
+print("getting neighbors of 't':",newMat.getNeighbors('t'))
+
+newList = AdjacencyList()
+print("reading:",newList.readGraph(fpath))
+print("add vertex 'u':",newList.addVertex('u'))
+print("add edge 'd,h':",newList.addEdge(('d','h')))
+newList.printList()
+print("remove vertex 'u':",newList.deleteVertex('u'))
+print("removing edge 'd,h':",newList.deleteEdge(('d','h')))
+newList.printList()
+print("neighbors of 'd':",newList.getNeighbors('d'))
