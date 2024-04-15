@@ -1,90 +1,121 @@
-class AdjacencyMatrix:
+class PriorityQueue:
     def __init__(self):
-        self.graph = []
-        self.vertices = []
+        self.heap = []
+
+    def parent(self, i):
+        return (i - 1) // 2
+
+    def left_child(self, i):
+        return 2 * i + 1
+
+    def right_child(self, i):
+        return 2 * i + 2
+
+    def swap(self, i, j):
+        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+
+    def insert(self, item, priority): #O(1) as it appends to the end, then sorts. Sorting is 0(log n)
+        self.heap.append((item, priority))
+        self.heapify_up(len(self.heap) - 1)
+
+    def heapify_up(self, i): #O(log n), sorting is done quickly by heap rules, not fully sorted rules
+        while i > 0 and self.heap[i][1] > self.heap[self.parent(i)][1]:
+            self.swap(i, self.parent(i))
+            i = self.parent(i)
+
+    def heapify_down(self, i): #O(log n), same as heaping up, this is quite quick
+        max_index = i
+        left = self.left_child(i)
+        right = self.right_child(i)
+
+        if left < len(self.heap) and self.heap[left][1] > self.heap[max_index][1]:
+            max_index = left
+
+        if right < len(self.heap) and self.heap[right][1] > self.heap[max_index][1]:
+            max_index = right
+
+        if i != max_index:
+            self.swap(i, max_index)
+            self.heapify_down(max_index)
+
+    def pop(self): #pop is fast, calling from the end means it doesn't need to shift anything. O(log n) from sorting
+        if len(self.heap) == 0:
+            return None
+
+        max_element = self.heap[0]
+        last_element = self.heap.pop()
+        if len(self.heap) > 0:
+            self.heap[0] = last_element
+            self.heapify_down(0)
+        return max_element
+    
+    def returnQueue(self):
+        outQueue = self.heap
+        return outQueue
+
+class AdjacencyList:
+    def __init__(self):
+        self.adjList = {}
     def readGraph(self,filepath):
         fi = open(filepath)
         val = fi.readline().split()
-        num_Verts = int(val[0])
-        num_Edges = int(val[1])
-        self.vertices = fi.readline().strip().split(',')
-        self.graph = [['0' for _ in range(num_Verts+1)]for _ in range(num_Verts+1)]
-        for i in range(1,len(self.vertices)+1):
-            self.graph[0][i] = self.vertices[i-1]
-            self.graph[i][0] = self.vertices[i-1]
-            
-        for line in fi:
-            numbLine = line.strip().split(' ')
-            self.graph[self.vertices.index(numbLine[0])+1][self.vertices.index(numbLine[1])+1] = '1'
-            self.graph[self.vertices.index(numbLine[1])+1][self.vertices.index(numbLine[0])+1] = '1'
+        edgeCount = int(val[1])
+        vertices = fi.readline().strip().split(',')
+        for vertex in vertices:
+            self.adjList.update({vertex:[]})
+        for _ in range(edgeCount):
+            edge = fi.readline().strip().split(' ')
+            for key,value in self.adjList.items():
+                if key == edge[0]:
+                    value.append((edge[1],edge[2]))
+                if key == edge[1]:
+                    value.append((edge[0],edge[2]))
         fi.close()
         return True
     def addVertex(self,vertex):
-        if vertex not in self.vertices:
-            self.vertices.append(vertex)
-            self.graph[0].append(vertex)
-            for line in self.graph:
-                if line[0] == '0':
-                    continue
-                else:
-                    line.append('0')
-            self.graph.append([vertex])
-            while len(self.graph[-1]) < len(self.vertices)+1:
-                self.graph[-1].append('0')
+        if vertex not in self.adjList:
+            self.adjList.update({vertex:[]})
             return True
         else:
             return False
     def addEdge(self,edge):
-        if edge[0] in self.graph[0]:
-            hor = self.graph[0].index(edge[0])
-        else:
-            return False
-        if edge[1] in self.graph[0]:
-            ver = self.graph[0].index(edge[1])
-        else:
-            return False
-        self.graph[hor][ver] = '1'
-        self.graph[ver][hor] = '1'
+        for key,value in self.adjList.items():
+            if key == edge[0]:
+                value.append(edge[1])
+            if key == edge[1]:
+                value.append(edge[0])
         return True
     def deleteVertex(self,vertex):
-        if vertex in self.vertices:
-            self.vertices.remove(vertex)
-            vert = self.graph[0].index(vertex)
-            for line in self.graph:
-                line.pop(vert)
-            for line in self.graph:
-                if line[0] == vertex:
-                    self.graph.remove(line)
+        if vertex in self.adjList:
+            self.adjList.pop(vertex)
             return True
         else:
             return False
     def deleteEdge(self,edge):
-        if edge[0] in self.graph[0]:
-            hor = self.graph[0].index(edge[0])
-        else:
-            return False
-        if edge[1] in self.graph[0]:
-            ver = self.graph[0].index(edge[1])
-        else:
-            return False
-        self.graph[hor][ver] = '0'
-        self.graph[ver][hor] = '0'
+        for key,value in self.adjList.items():
+            if key == edge[0]:
+                value.remove(edge[1])
+            if key == edge[1]:
+                value.remove(edge[0])
         return True
     def getNeighbors(self,vertex):
-        if vertex not in self.vertices:
-            return False
-        inds = []
-        neighbors = []
-        count = 0
-        for line in self.graph:
-            if line[0] == vertex:
-                for item in line:
-                    if item == '1':
-                        inds.append(count)
-                    count+=1
-        for ind in inds:
-            neighbors.append(self.vertices[ind-1])
-        return neighbors
-    def printGraph(self):
-        for line in self.graph:
-            print(line)
+        return self.adjList.get(vertex)
+    def printList(self):
+        for key,value in self.adjList.items():
+            print(key,value)
+            
+def Dijkstra(graph,start,end):
+    pass
+
+fpath1 = '/home/cye/AlgosHW/REPO2/CS301/week13/weightedGraph1.txt'
+fpath2 = '/home/cye/AlgosHW/REPO2/CS301/week13/weightedGraph2.txt'
+
+
+wGraph1 = AdjacencyList()
+wGraph1.readGraph(fpath1)
+wGraph2 = AdjacencyList()
+wGraph2.readGraph(fpath2)
+print("Graph 1:")
+wGraph1.printList()
+print("Graph 2:")
+wGraph2.printList()
