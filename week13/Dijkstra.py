@@ -56,12 +56,14 @@ class PriorityQueue:
 class AdjacencyList:
     def __init__(self):
         self.adjList = {}
+        self.vertices = []
     def readGraph(self,filepath):
         fi = open(filepath)
         val = fi.readline().split()
         edgeCount = int(val[1])
         vertices = fi.readline().strip().split(',')
         for vertex in vertices:
+            self.vertices.append(vertex)
             self.adjList.update({vertex:[]})
         for _ in range(edgeCount):
             edge = fi.readline().strip().split(' ')
@@ -79,13 +81,20 @@ class AdjacencyList:
         else:
             return False
     def addEdge(self,edge):
-        for key,value in self.adjList.items():
-            if key == edge[0]:
-                value.append(edge[1])
-            if key == edge[1]:
-                value.append(edge[0])
-        return True
+        if edge[0] in self.vertices and edge[1] in self.vertices:
+            for key,value in self.adjList.items():
+                if key == edge[0]:
+                    value.append((edge[1],edge[2]))
+                if key == edge[1]:
+                    value.append((edge[0],edge[2]))
+            return True
+        else:
+            return False
     def deleteVertex(self,vertex):
+        for key,value in self.adjList.items():
+            for tup in value:
+                if vertex in tup:
+                    value.remove(tup)
         if vertex in self.adjList:
             self.adjList.pop(vertex)
             return True
@@ -115,7 +124,22 @@ wGraph1 = AdjacencyList()
 wGraph1.readGraph(fpath1)
 wGraph2 = AdjacencyList()
 wGraph2.readGraph(fpath2)
-print("Graph 1:")
+print("Graph 1 start:")
 wGraph1.printList()
-print("Graph 2:")
+print("Graph 2 start:")
+wGraph2.printList()
+wGraph1.deleteVertex('j')
+wGraph2.deleteVertex('i')
+print("Graph 1 deleted vert j:")
+wGraph1.printList()
+print("Graph 2 deleted vert i:")
+wGraph2.printList()
+wGraph1.addVertex('j')
+wGraph2.addVertex('i')
+wGraph1.addEdge(('j','a','10'))
+wGraph1.addEdge(('j','b','4'))
+wGraph2.addEdge(('i','c','1'))
+print("Graph 1 added vert j and edges:")
+wGraph1.printList()
+print("Graph 2 added vert i and edge:")
 wGraph2.printList()
