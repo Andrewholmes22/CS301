@@ -14,8 +14,9 @@ class PriorityQueue:
     def swap(self, i, j):
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
 
-    def insert(self, item, priority): #O(1) as it appends to the end, then sorts. Sorting is 0(log n)
-        self.heap.append((item, priority))
+    def insert(self, item): #O(1) as it appends to the end, then sorts. Sorting is 0(log n)
+        print(item)
+        self.heap.append((item[0], item[1]))
         self.heapify_up(len(self.heap) - 1)
 
     def heapify_up(self, i): #O(log n), sorting is done quickly by heap rules, not fully sorted rules
@@ -109,12 +110,39 @@ class AdjacencyList:
         return True
     def getNeighbors(self,vertex):
         return self.adjList.get(vertex)
-    def printList(self):
-        for key,value in self.adjList.items():
-            print(key,value)
+    def returnList(self):
+        return(self.adjList)
             
+# Dijkstra(graph, start, end):
+# for all nodes in graph:
+# set node distance to infinity
+# set start node’s distance to 0
+# insert all nodes into a priority queue ordered on distance
+# while priority queue is not empty:
+# pop a node current from the queue
+# if current is end node: # we’ve reached the destination
+# path = []
+# while current is not start: # walk backward from end node to start
+# path.insert(0, (current.previous, current))
+# current = current.previous
+# return path
+# for all neighbors of current:
+# if neighbor.distance > current.distance + edge(current,neighbor).weight:
+# neighbor.distance = current.distance + edge(current,neighbor).weight
+# neighbor.previous = current
+# update position of neighbor in queue with new distance
 def Dijkstra(graph,start,end):
-    pass
+    que = PriorityQueue()
+    graph = graph.returnList()
+    for vertex in graph:
+        for edge in vertex:
+            edge = list(edge)
+            edge.append('999')
+            edge.append(None)
+            edge = tuple(edge)
+        que.insert(vertex)
+    print(que.returnQueue())
+
 
 fpath1 = '/home/cye/AlgosHW/REPO2/CS301/week13/weightedGraph1.txt'
 fpath2 = '/home/cye/AlgosHW/REPO2/CS301/week13/weightedGraph2.txt'
@@ -125,21 +153,25 @@ wGraph1.readGraph(fpath1)
 wGraph2 = AdjacencyList()
 wGraph2.readGraph(fpath2)
 print("Graph 1 start:")
-wGraph1.printList()
+print(wGraph1.returnList())
 print("Graph 2 start:")
-wGraph2.printList()
+print(wGraph2.returnList())
 wGraph1.deleteVertex('j')
 wGraph2.deleteVertex('i')
 print("Graph 1 deleted vert j:")
-wGraph1.printList()
+print(wGraph1.returnList())
 print("Graph 2 deleted vert i:")
-wGraph2.printList()
+print(wGraph2.returnList())
 wGraph1.addVertex('j')
 wGraph2.addVertex('i')
 wGraph1.addEdge(('j','a','10'))
 wGraph1.addEdge(('j','b','4'))
 wGraph2.addEdge(('i','c','1'))
 print("Graph 1 added vert j and edges:")
-wGraph1.printList()
+print(wGraph1.returnList())
 print("Graph 2 added vert i and edge:")
-wGraph2.printList()
+print(wGraph2.returnList())
+print("neighbors of 'f' in graph 1:",wGraph1.getNeighbors('f'))
+print("neighbors of 'e' in graph 2:",wGraph2.getNeighbors('e'))
+
+Dijkstra(wGraph1,'a','o')
