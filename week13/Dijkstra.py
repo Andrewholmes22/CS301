@@ -1,3 +1,5 @@
+import math
+
 class PriorityQueue:
     def __init__(self):
         self.heap = []
@@ -14,9 +16,9 @@ class PriorityQueue:
     def swap(self, i, j):
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
 
-    def insert(self, item): #O(1) as it appends to the end, then sorts. Sorting is 0(log n)
+    def insert(self, item,distance): #O(1) as it appends to the end, then sorts. Sorting is 0(log n)
         print(item)
-        self.heap.append((item[0], item[1]))
+        self.heap.append(item)
         self.heapify_up(len(self.heap) - 1)
 
     def heapify_up(self, i): #O(log n), sorting is done quickly by heap rules, not fully sorted rules
@@ -134,14 +136,16 @@ class AdjacencyList:
 def Dijkstra(graph,start,end):
     que = PriorityQueue()
     graph = graph.returnList()
-    for vertex in graph:
-        for edge in vertex:
+    for key,value in graph.items():
+        print(value)
+        for edge in value:
             edge = list(edge)
             edge.append('999')
             edge.append(None)
             edge = tuple(edge)
-        que.insert(vertex)
-    print(que.returnQueue())
+        print(value)
+    for key,value in graph.items():
+        print(key,value)
 
 
 fpath1 = '/home/cye/AlgosHW/REPO2/CS301/week13/weightedGraph1.txt'
